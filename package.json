@@ -2,7 +2,7 @@
   "name": "289783-buy-and-sell-3",
   "version": "1.0.0",
   "description": "Куплю. Продам",
-  "main": "./src/service/service.js",
+  "main": "src/service/cli/service.js",
   "scripts": {
     "test": "npm run eslint",
     "eslint": "eslint --ext .js src/",
