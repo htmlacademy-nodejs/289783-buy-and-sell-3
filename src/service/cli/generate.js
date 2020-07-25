@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require(`fs`);
+const {ExitCode} = require(`../../constants`);
 
 const DEFAULT_COUNT = 1;
 const FILE_NAME = `mocks.json`;
@@ -69,6 +70,12 @@ module.exports = {
   run(args) {
     const [count] = args;
     const countOffer = Number.parseInt(count, 10) || DEFAULT_COUNT;
+
+    if (countOffer > 1000) {
+      console.error(`Не больше 1000 объявлений`);
+      process.exit(ExitCode.error);
+    }
+
     const content = JSON.stringify(generateOffers(countOffer));
 
     fs.writeFile(FILE_NAME, content, (err) => {
