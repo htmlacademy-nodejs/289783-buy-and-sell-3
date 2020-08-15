@@ -9,7 +9,7 @@ const commentValidator = require(`../middlewares/comment-validator`);
 const route = new Router();
 
 module.exports = (app, offerService) => {
-  app.use(`/offer`, route);
+  app.use(`/offers`, route);
 
   route.get(`/`, (req, res) => {
     const offers = offerService.findAll();
@@ -34,6 +34,22 @@ module.exports = (app, offerService) => {
     return res.status(HttpCode.CREATED)
       .json(offer);
   });
+
+  route.put(`/:offerId`, offerValidator, (req, res) => {
+    const {offerId} = req.params;
+    const existOffer = offerService.findOne(offerId);
+
+    if (!existOffer) {
+      return res.status(HttpCode.NOT_FOUND)
+        .send(`Not found with ${offerId}`);
+    }
+
+    const updatedOffer = offerService.update(offerId, req.body);
+
+    return res.status(HttpCode.OK)
+      .json(updatedOffer);
+  });
+
 
   route.delete(`/:offerId`, (req, res) => {
     const {offerId} = req.params;
