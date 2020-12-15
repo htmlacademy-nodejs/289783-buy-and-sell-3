@@ -1,76 +1,80 @@
+Skip to content
+Why GitHub?
+Team
+Enterprise
+Explore
+Marketplace
+Pricing
+Search
+
+Sign in
+Sign up
+htmlacademy-nodejs
+/
+buy-and-sell
+2421
+Code
+Issues
+Pull requests
+1
+Actions
+Projects
+Security
+Insights
+Join GitHub today
+GitHub is home to over 50 million developers working together to host and review code, manage projects, and build software together.
+
+buy-and-sell/src/express/templates/offers/ticket-edit.pug
+@AntonovIgor
+AntonovIgor 04.2. Добавит решение задания 2 и 3 (модуль 4)
+Latest commit 994ec29 on Oct 7
+  History
+1 contributor
+46 lines (45 sloc)  2.67 KB
+
 extends ../layout.pug
 
 block content
   main.page-content
-    section.ticket
-      .ticket__wrapper
-        h1.visually-hidden Карточка объявления
-        .ticket__content
-          .ticket__img
-            img(src='img/ticket.jpg', srcset='img/ticket@2x.jpg 2x', alt='Изображение товара')
-          .ticket__info
-            h2.ticket__title Мое старое кресло
-            .ticket__header
-              p.ticket__price
-                span.js-sum 4000
-                |  ₽
-              p.ticket__action ПРОДАМ
-            .ticket__desc
-              p
-                | Продам свое старое кресло, чтобы сидеть и читать книги зимними вечерами. Ножки мягкие, мой пол не царапают. Кресло почти новое – продаю, т.к. надоел серый цвет. Можно, конечно, накинуть плед и спасти ситуацию, но я все-таки хочу просто другое кресло. В общем оно на самом деле удобное и с ним все хорошо, просто нам пора расстаться.
-            .ticket__data
-              p
-                b Дата добавления:
-                span 20 ноября 2019
-              p
-                b Автор:
-                a(href='#') Денис Шкатулкин
-              p
-                b Контакты:
-                a(href='mailto:shkatulkin@ya.ru') shkatulkin@ya.ru
-            ul.ticket__tags
-              li
-                a.category-tile.category-tile--small(href='#')
-                  span.category-tile__image
-                    img(src='img/cat.jpg', srcset='img/cat@2x.jpg 2x', alt='Иконка категории')
-                  span.category-tile__label Дом
-              li
-                a.category-tile.category-tile--small(href='#')
-                  span.category-tile__image
-                    img(src='img/cat04.jpg', srcset='img/cat04@2x.jpg 2x', alt='Иконка категории')
-                  span.category-tile__label Спорт и отдых
-        .ticket__comments
-          h2.ticket__subtitle Коментарии
-          .ticket__comment-form
-            form.form.comment-form(action='#', method='post')
-              .comment-form__header
-                a.comment-form__avatar.avatar(href='#')
-                  img(src='img/avatar.jpg', srcset='img/avatar@2x.jpg 2x', alt='Аватар пользователя')
-                p.comment-form__author Вам слово
-              .comment-form__field
+    section.ticket-form
+      .ticket-form__wrapper
+        h1.ticket-form__title Редактировать публикацию
+        .ticket-form__tile
+          form.ticket-form__form.form(action="#" method="post" enctype="multipart/form-data" autocomplete="off")
+            .ticket-form__avatar-container.js-preview-container.uploaded
+              .ticket-form__avatar.js-preview
+                img(src=`/img/${offer.picture}` alt="")
+              .ticket-form__field-avatar
+                input#avatar.visually-hidden.js-file-field(type="file" name="avatar")
+                label(for="avatar")
+                  span.ticket-form__text-upload Загрузить фото…
+                  span.ticket-form__text-another Загрузить другое фото…
+            .ticket-form__content
+              .ticket-form__row
                 .form__field
-                  textarea#comment-field.js-field(name='comment', cols='30', rows='10', maxlength='400', minlength='50') Нормальное вообще кресло! А как насч
-                  label(for='comment-field') Текст комментария
+                  input#ticket-name.js-field(type="text" name="ticket-name" value=offer.title required="")
+                  label(for="ticket-name") Название
                   span Обязательное поле
-              button.comment-form__button.btn.btn--white.js-button(type='submit', disabled='') Отправить
-          .ticket__comments-list
-            ul.comments-list
-              li
-                .comment-card
-                  .comment-card__header
-                    a.comment-card__avatar.avatar(href='#')
-                      img(src='img/avatar02.jpg', srcset='img/avatar02@2x.jpg 2x', alt='Аватар пользователя')
-                    p.comment-card__author Георгий Шпиц
-                  .comment-card__content
-                    p Что это за рухлядь? Стыдно такое даже фотографировать, не то, что продавать.
-              li
-                .comment-card
-                  .comment-card__header
-                    a.comment-card__avatar.avatar(href='#')
-                      img(src='img/avatar03.jpg', srcset='img/avatar03@2x.jpg 2x', alt='Аватар пользователя')
-                    p.comment-card__author Александр Бурый
-                  .comment-card__content
-                    p
-                      | А можете доставить мне домой? Готов доплатить 300 сверху.
-                      br
-                      | Живу в центре прямо рядом с Моховой улицей. Готов купить прямо сейчас. Мой телефон 9032594748
+              .ticket-form__row
+                .form__field
+                  textarea#comment-field.js-field(name="comment" cols="30" rows="10" maxlength="400" minlength="50")
+                    |#{offer.description}
+                  label(for="comment-field") Описание
+                  span Обязательное поле
+              .ticket-form__row
+                select#category-field.form__select.js-multiple-select(name="category" data-label="Выбрать категорию публикации" multiple="")
+                  each category in categories
+                    option(value=category selected=offer.category.includes(category)) #{category}
+              .ticket-form__row
+                .form__field.form__field--price
+                  input#price-field.js-field.js-price(type="number" name="price" min="1" value=offer.price required="")
+                  label(for="price-field") Цена
+                  span Обязательное поле
+                .form__switch.switch
+                  .switch__item
+                    input#buy-field.visually-hidden(type="radio" name="action" value="buy" checked=(offer.type === 'OFFER'))
+                    label.switch__button(for="buy-field") Куплю
+                  .switch__item
+                    input#sell-field.visually-hidden(type="radio" name="action" value="sell" checked=(offer.type === 'SALE'))
+                    label.switch__button(for="sell-field") Продам
+            button.form__button.btn.btn--medium.js-button(type="submit") Сохранить
